@@ -6,7 +6,7 @@ import os
 
 # Flask app initialization
 app = Flask(__name__)
-app.secret_key = 'your_super_secret_key'
+app.secret_key = 'my_super_secret_key'
 
 # MongoDB setup
 client = MongoClient('mongodb://localhost:27017/')
