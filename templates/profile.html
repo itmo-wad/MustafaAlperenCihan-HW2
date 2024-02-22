@@ -9,13 +9,19 @@
     <p>Name: {{ user['name'] }}</p>
     <p>Email: {{ user['email'] }}</p>
     <!-- Display the profile picture -->
-    <img src="{{ user['profile_pic_url'] | default(url_for('static', filename='images/default.jpg'), true) }}" alt="Profile Picture">
+    <img src="{{ user['profile_pic_url'] | default(url_for('static', filename='images/default.jpg'), true) }}" alt="Profile Picture" id="profile_pic">
     <!-- Buttons for updating profile and viewing default image -->
-    <form action="/update_profile" method="get">
+    <form action="/update_profile" method="post" enctype="multipart/form-data">
         <button type="submit">Update Profile</button>
     </form>
-    <form action="#" method="get">
-        <button type="button" onclick="document.getElementById('profile_pic').src='{{ url_for('static', filename='images/default.jpg') }}';">View Default Image</button>
+    <button onclick="viewDefaultImage();">View Default Image</button>
+
+    <h2>Change Password</h2>
+    <form action="/change_password" method="post">
+        <input type="password" name="current_password" placeholder="Current Password" required>
+        <input type="password" name="new_password" placeholder="New Password" required>
+        <input type="password" name="confirm_new_password" placeholder="Confirm New Password" required>
+        <button type="submit">Change Password</button>
     </form>
 
     <script>
