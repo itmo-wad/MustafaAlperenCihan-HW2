@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+    <h1>Welcome, {{ user['username'] }}</h1>
+    <p>Name: {{ user['name'] }}</p>
+    <p>Email: {{ user['email'] }}</p>
+    <!-- Display the profile picture -->
+    <img src="{{ user['profile_pic_url'] | default(url_for('static', filename='images/default.jpg'), true) }}" alt="Profile Picture">
+    <!-- Buttons for updating profile and viewing default image -->
+    <form action="/update_profile" method="get">
+        <button type="submit">Update Profile</button>
+    </form>
+    <form action="#" method="get">
+        <button type="button" onclick="document.getElementById('profile_pic').src='{{ url_for('static', filename='images/default.jpg') }}';">View Default Image</button>
+    </form>
+
+    <script>
+        function viewDefaultImage() {
+            var img = document.getElementById('profile_pic');
+            img.src = "{{ url_for('static', filename='images/default.jpg') }}";
+        }
+    </script>
+</body>
+</html>
