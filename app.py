@@ -73,6 +73,28 @@ def profile():
     else:
         return redirect('/')
 
+@app.route('/change_password', methods=['POST'])
+def change_password():
+    if 'username' not in session:
+        return redirect('/')
+
+    user = users_collection.find_one({"username": session['username']})
+    current_password = request.form['current_password']
+    new_password = request.form['new_password']
+    confirm_password = request.form['confirm_password']
+    hashed_current_password = hashlib.sha256(current_password.encode()).hexdigest()
+
+    if user['password'] != hashed_current_password:
+        return "Current password is incorrect.", 401
+    if new_password != confirm_password:
+        return "New passwords do not match.", 400
+
+    hashed_new_password = hashlib.sha256(new_password.encode()).hexdigest()
+    users_collection.update_one({"username": session['username']}, {"$set": {"password": hashed_new_password}})
+
+    return redirect('/profile')
+
+
 @app.route('/update_profile', methods=['GET', 'POST'])
 def update_profile():
     if 'username' not in session:
